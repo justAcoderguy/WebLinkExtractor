@@ -23,13 +23,11 @@ class Producer:
     def fetch_url(url):
         """
             Gets urls from the 'producer' queue and fetches HTML of said url.
-            Retries a max of 3 times if an error occurs after every 5 seconds.
         """
         try:
             resp = requests.get(url)
             if resp.status_code == 200:
                 Consumer.extract_hyperlink.apply_async((resp.text, url), queue='consumer')
-                return f"{url} - 200"
         except Exception as e:
             # Note : might want to add this to a logger file.
             print(f"The url {url} failed! - {str(e)}")
