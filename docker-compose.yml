@@ -1,0 +1,22 @@
+version: '3'
+
+# Run as
+# docker-compose build; docker-compose up -d
+# Check with
+# docker ps
+# Then check the logs with
+# docker logs --tail 50 $container_id
+# docker-compose images
+# docker-compose logs --tail 20 repo_name
+
+services:
+  app:
+    build: .
+    volumes:
+     - .:/code
+    depends_on:
+     - redis
+  redis:
+    image: redis
+    ports:
+      - 6379
